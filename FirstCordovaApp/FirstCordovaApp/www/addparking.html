@@ -2,18 +2,66 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("deviceready", onDeviceReady, false);
+        
+        function goInsert() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(insertDB, errorCB, successCB);
+            window.location.href = "showlist.html";
+        }
+
+        function insertDB(tx) {
+            tx.executeSql('INSERT INTO Spots (name, lati, lon, date) VALUES ("' + document.getElementById("txtName").value
+                        + '","' + document.getElementById("txtLati").value + '","' + document.getElementById("txtLong").value
+                        + '","' + document.getElementById("txtDate").value + '")');
+        }
+
+        function populateDB(tx) {
+            //tx.executeSql('DROP TABLE Spots');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Spots (id INTEGER PRIMARY KEY AUTOINCREMENT, name, lati, lon, date, occupied)');
+        }
+
+        function errorCB(err) {
+            alert("Error processing SQL: " + err.code);
+        }
+
+        function successCB() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+        }
+
+        function onDeviceReady() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(populateDB, errorCB, successCB);
+        }
+    </script>
 </head>
 <body>
     <header>
         <h1 class="title">Add Parking</h1>
         <div id="menu">
-            <a id="showList" href="showlist.html"> <img title="Show Parking list" src="/images/list.png" no-repeat center top width="50" height="50" /> </a>        
+            <a id="showList" href="showlist.html"> <img title="Show Parking list" src="/images/list.png" no-repeat center top width="50" height="50" /> </a>
             <a id="showMap" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
         </div>
     </header>
+    
+    <div id="insetData">
+        <br />
+        <h2>Name</h2>       <input class="input" type="text" value="Name" id="txtName">                       <br />
+        <h2>Latitude</h2>   <input class="input" type="number" step="0.00001" value="0" id="txtLati">                   <br />
+        <h2>Longitude</h2>  <input class="input" type="number" step="0.00001" value="0" id="txtLong">                   <br />
+        <!--<h2>Occupied</h2>   <div id="radioButton">
+                                <input type="radio" value="Free" id="txtOccupied" name="nmOccupied">Free
+                                <input type="radio" value="Occupied" id="txtOccupied" name="nmOccupied">Occupied
+                            </div>-->
+        <h2>Date</h2>       <input class="input" type="datetime-local" step="7200" value="2017-04-18T15:15:00" id="txtDate">                                <br />
+    </div>
 
-    <button id="camera">Take a photo!</button>
-    <img id="myImage" />
+    <div id="tblDiv"></div>
+    <div style="text-align: center">
+        <button onclick="goInsert()" >Insert</button>
+    </div>
 
 
     <script type="text/javascript" src="cordova.js"></script>

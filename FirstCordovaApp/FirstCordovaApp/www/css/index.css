@@ -53,6 +53,19 @@ h1 {
     text-align:center;
 }
 
+h2 {
+    margin:0px;
+    margin-left: 30px;
+    padding:0px;
+    color: #1F75FE
+}
+
+h3 {
+    margin:0px;
+    padding:0px;
+    color: #1F75FE
+}
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
@@ -145,3 +158,89 @@ img {
    -webkit-filter: invert(1);
    filter: invert(1);
    }
+
+
+.input {
+    border: 1px solid #1F75FE;
+    border-radius: 5px;
+    width: 60%;
+    margin-left:30%;
+}
+
+.edit {
+    border: 1px solid #1F75FE;
+    border-radius: 5px;
+    width: 100%;
+}
+
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+    background-color:#fff;
+}
+table#t01 th    {
+    background-color: #1F75FE;
+    color: white;
+}
+button {
+    margin: 10px;
+    font: bold 13px "Helvetica Neue", Helvetica, Arial, clean, sans-serif !important;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25), -2px 0 1px rgba(0,0,0,0.25);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    display: inline-block;
+    color: white;
+    padding: 5px 10px 5px;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #1F75FE;
+    border-style: none;
+    text-align: center;
+    overflow: visible;
+}
+
+button:active {
+    background-position: 0 -100px;
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
+    -webkit-box-shadow: none;
+}
+
+#qrpopup {
+    position:fixed;
+    z-index:9999;
+    background-color:rgba(0, 0, 0,0.9);
+    width:100%; 
+    height:100%;
+    display:none;
+}
+
+#radioButton {    
+    margin-left:50%;
+}
+
+#insertData {
+    padding:20px;
+    position: absolute;             
+    left: 50%;
+    top: 50%;
+    height: 50px;                  
+    width: 225px;                   
+    text-align: center; 
+    margin: -115px 0px 0px -112px;
+}

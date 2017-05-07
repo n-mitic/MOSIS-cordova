@@ -2,6 +2,91 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        function goSearch() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(searchQueryDB, errorCB);
+        }
+
+        function searchQueryDB(tx) {
+            tx.executeSql("SELECT * FROM Spots where name like ('%" + document.getElementById("txtName").value + "%')",
+                    [], querySuccess, errorCB);
+        }
+
+        function goEdit() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(editRow, errorCB);
+            document.getElementById('qrpopup').style.display = 'none';
+        }
+
+        function editRow(tx) {
+            tx.executeSql('UPDATE Spots SET name ="' + document.getElementById("editNameBox").value +
+                    '", lati= "' + document.getElementById("editLatiBox").value +
+                    '", lon= "' + document.getElementById("editLongBox").value +
+                    '", date= "' + document.getElementById("editDateBox").value +
+                    '" WHERE id = '
+                    + currentRow, [], queryDB, errorCB);
+        }
+
+        function goDelete() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(deleteRow, errorCB);
+            document.getElementById('qrpopup').style.display = 'none';
+        }
+
+        function deleteRow(tx) {
+            tx.executeSql('DELETE FROM Spots WHERE id = ' + currentRow, [], queryDB, errorCB);
+        }
+
+        function goPopup(row, rowname, rowlati, rowlong, rowdate) {
+            currentRow = row;
+            document.getElementById("qrpopup").style.display = "block";
+            document.getElementById("editNameBox").value = rowname;
+            document.getElementById("editLatiBox").value = rowlati;
+            document.getElementById("editLongBox").value = rowlong;
+            document.getElementById("editDateBox").value = rowdate;
+        }
+
+        function populateDB(tx) {
+            //tx.executeSql('DROP TABLE Spots');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Spots (id INTEGER PRIMARY KEY AUTOINCREMENT, name, lati, lon, date, occupied)');
+        }
+
+        function queryDB(tx) {
+            tx.executeSql('SELECT * FROM Spots', [], querySuccess, errorCB);
+        }
+
+        function querySuccess(tx, results) {
+            var tblText = '<table id="t01"><tr> <th>ID</th> <th>Name</th> <th>Lati</th> <th>Long</th> <th>Date</th> </tr>';
+            var len = results.rows.length;
+            for (var i = 0; i < len; i++) {
+                var tmpArgs = results.rows.item(i).id + ",'" + results.rows.item(i).name + "','" + results.rows.item(i).lati
+                     + "','" + results.rows.item(i).lon + "','" + results.rows.item(i).date + "'";
+                tblText += '<tr onclick="goPopup(' + tmpArgs + ');"><td>' + results.rows.item(i).id + '</td><td>'
+                        + results.rows.item(i).name + '</td><td>' + results.rows.item(i).lati + '</td><td>' + results.rows.item(i).lon
+                       + '</td><td>' + results.rows.item(i).date + '</td></tr>';
+            }
+            tblText += "</table>";
+            document.getElementById("tblDiv").innerHTML = tblText;
+        }
+
+        function errorCB(err) {
+            alert("Error processing SQL: " + err.code);
+        }
+
+        function successCB() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(queryDB, errorCB);
+        }
+
+        function onDeviceReady() {
+            var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
+            db.transaction(populateDB, errorCB, successCB);
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -11,10 +96,39 @@
                 <a id="showMap" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
         </div>
     </header>
-    <menu>
-        <ul>
-        </ul>
-    </menu>
+
+    <div id="qrpopup">
+        <hr />
+        <div class="app">
+            <h3>Name</h3>       <input class="edit" type="text" value="Name" id="editNameBox">                       <br />
+            <h3>Latitude</h3>   <input class="edit" type="number" step="0.00001" id="editLatiBox">                   <br />
+            <h3>Longitude</h3>  <input class="edit" type="number" step="0.00001" id="editLongBox">                   <br />
+            <!--<h2>Occupied</h2>   <div id="radioButton">
+                <input type="radio" value="Free" id="editOccupiedBox" name="nmOccupied">Free
+                <input type="radio" value="Occupied" id="editOccupiedBox" name="nmOccupied">Occupied
+            </div>-->
+            <h3>Date</h3>       <input class="edit" type="datetime-local" id="editDateBox">                                <br />
+            <hr />
+            <button onclick="goDelete()">Delete</button>
+            <button onclick="goEdit()">Edit</button>
+            <button onclick="document.getElementById('qrpopup').style.display='none';">Discard</button>
+        </div>
+    </div>
+
+    <div id="insetData">
+        <hr />
+        <h2 style="margin: 10px" >Search by Name</h2>       <input class="input" type="text" value="Name" id="txtName">                       <br />
+        <div style="text-align: center">
+            <button onclick="goSearch()">Search</button>
+        </div>
+        <hr />
+    </div>
+
+    <div id="tblDiv"></div>
+    <div style="text-align: center">
+        <button onclick="successCB()">Show All</button>
+    </div>
+
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
