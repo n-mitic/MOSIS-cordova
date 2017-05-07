@@ -18,6 +18,17 @@
         //var receivedElement = parentElement.querySelector('.received');
         //listeningElement.setAttribute('style', 'display:none;');
         //receivedElement.setAttribute('style', 'display:block;');
+        var cam = document.getElementById('camera');
+        
+        if (cam) {
+            cam.addEventListener('click', function (event) {
+                navigator.camera.getPicture(onSuccess, onFail, {
+                    quality: 50,
+                    destinationType: Camera.DestinationType.FILE_URI
+                });
+            });
+        }
+
         
     };
 
@@ -102,5 +113,13 @@
         }*/
 
     
+    function onSuccess(imageURI) {
+        var image = document.getElementById('myImage');
+        image.src = imageURI;
+    }
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
 
 })();
