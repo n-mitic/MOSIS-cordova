@@ -1,7 +1,11 @@
 # MOSIS-cordova
-Hibridna aplikacija iz predmeta Mobilni sistemi i servisi. Na temu parking servisa, pod nazivom "Parking here".
+Hibridna aplikacija iz predmeta Mobilni sistemi i servisi. Na temu parking servisa, pod nazivom 
 
-![alt text](https://github.com/nikolcar/MOSIS-cordova/blob/master/FirstCordovaApp/FirstCordovaApp/res/icons/android/icon-96-xhdpi.png)
+"Parking here".
+
+<p align="center">
+  <img hrc="https://github.com/nikolcar/MOSIS-cordova/blob/master/FirstCordovaApp/FirstCordovaApp/res/icons/android/icon-96-xhdpi.png)"/>
+</p>
 
 Sa implementiranim funkcionalnostima
 - Prikaz sopstvene lokacije na mapi
