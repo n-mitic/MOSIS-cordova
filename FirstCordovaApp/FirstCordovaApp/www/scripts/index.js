@@ -25,6 +25,8 @@
             });
         }
        
+        console.log("navigator.geolocation works well");
+        
     };
 
     function onPause() {
@@ -95,6 +97,9 @@
             ctx.textAlign = "center";
             ctx.strokeText("Ph", 113, 100);
         }
+        localStorage.setItem("Latitude", 0);
+        localStorage.setItem("Longitude", 0);
+        localStorage.setItem("Type", 0);
     }
 
 

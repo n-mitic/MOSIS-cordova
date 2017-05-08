@@ -41,25 +41,26 @@
     <header>
         <h1 class="title">Add Parking</h1>
         <div id="menu">
-            <a id="showList" href="showlist.html"> <img title="Show Parking list" src="/images/list.png" no-repeat center top width="50" height="50" /> </a>
-            <a id="showMap" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
+            <a id="showList" class="menuIcon" href="showlist.html"> <img title="Show Parking list" src="/images/list.png" no-repeat center top width="50" height="50" /> </a>
+            <a id="showMap" class="menuIcon" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
         </div>
     </header>
     
     <div id="insetData">
         <br />
         <h2>Name</h2>       <input class="input" type="text" value="Name" id="txtName">                       <br />
-        <h2>Latitude</h2>   <input class="input" type="number" step="0.00001" value="0" id="txtLati">                   <br />
-        <h2>Longitude</h2>  <input class="input" type="number" step="0.00001" value="0" id="txtLong">                   <br />
-        <!--<h2>Occupied</h2>   <div id="radioButton">
+        <h2>Latitude</h2>   <input class="input" type="number" step="0.0000000000001" value="0" id="txtLati">                   <br />
+        <h2>Longitude</h2>  <input class="input" type="number" step="0.0000000000001" value="0" id="txtLong">                   <br />
+        <h2>Occupied</h2>   <div id="radioButton">
                                 <input type="radio" value="Free" id="txtOccupied" name="nmOccupied">Free
                                 <input type="radio" value="Occupied" id="txtOccupied" name="nmOccupied">Occupied
-                            </div>-->
+                            </div>
         <h2>Date</h2>       <input class="input" type="datetime-local" step="7200" value="2017-04-18T15:15:00" id="txtDate">                                <br />
     </div>
 
     <div id="tblDiv"></div>
     <div style="text-align: center">
+        <button id="camera">Take photo</button>
         <button onclick="goInsert()" >Insert</button>
     </div>
 

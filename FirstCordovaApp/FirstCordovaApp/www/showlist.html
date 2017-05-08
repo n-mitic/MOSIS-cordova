@@ -6,23 +6,36 @@
     <script type="text/javascript" charset="utf-8">
         document.addEventListener("deviceready", onDeviceReady, false);
 
-        function goSearch() {
+        function showOnMap()
+        {
+            localStorage.setItem("Latitude", document.getElementById("editLatiBox").value);
+            localStorage.setItem("Longitude", document.getElementById("editLongBox").value);
+            localStorage.setItem("Type", 1);
+
+            window.location = "showmap.html";
+        }
+
+        function goSearch()
+        {
             var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
             db.transaction(searchQueryDB, errorCB);
         }
 
-        function searchQueryDB(tx) {
+        function searchQueryDB(tx)
+        {
             tx.executeSql("SELECT * FROM Spots where name like ('%" + document.getElementById("txtName").value + "%')",
                     [], querySuccess, errorCB);
         }
 
-        function goEdit() {
+        function goEdit()
+        {
             var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
             db.transaction(editRow, errorCB);
             document.getElementById('qrpopup').style.display = 'none';
         }
 
-        function editRow(tx) {
+        function editRow(tx)
+        {
             tx.executeSql('UPDATE Spots SET name ="' + document.getElementById("editNameBox").value +
                     '", lati= "' + document.getElementById("editLatiBox").value +
                     '", lon= "' + document.getElementById("editLongBox").value +
@@ -31,17 +44,20 @@
                     + currentRow, [], queryDB, errorCB);
         }
 
-        function goDelete() {
+        function goDelete()
+        {
             var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
             db.transaction(deleteRow, errorCB);
             document.getElementById('qrpopup').style.display = 'none';
         }
 
-        function deleteRow(tx) {
+        function deleteRow(tx)
+        {
             tx.executeSql('DELETE FROM Spots WHERE id = ' + currentRow, [], queryDB, errorCB);
         }
 
-        function goPopup(row, rowname, rowlati, rowlong, rowdate) {
+        function goPopup(row, rowname, rowlati, rowlong, rowdate)
+        {
             currentRow = row;
             document.getElementById("qrpopup").style.display = "block";
             document.getElementById("editNameBox").value = rowname;
@@ -50,39 +66,45 @@
             document.getElementById("editDateBox").value = rowdate;
         }
 
-        function populateDB(tx) {
+        function populateDB(tx)
+        {
             //tx.executeSql('DROP TABLE Spots');
             tx.executeSql('CREATE TABLE IF NOT EXISTS Spots (id INTEGER PRIMARY KEY AUTOINCREMENT, name, lati, lon, date, occupied)');
         }
 
-        function queryDB(tx) {
+        function queryDB(tx)
+        {
             tx.executeSql('SELECT * FROM Spots', [], querySuccess, errorCB);
         }
 
-        function querySuccess(tx, results) {
-            var tblText = '<table id="t01"><tr> <th>ID</th> <th>Name</th> <th>Lati</th> <th>Long</th> <th>Date</th> </tr>';
+        function querySuccess(tx, results)
+        {
+            var tblText = '<table id="t01"><tr> <th>ID</th> <th>Name</th> <th>Lati</th> <th>Long</th> <th>Date</th> <th> Occupied </th> </tr>';
             var len = results.rows.length;
             for (var i = 0; i < len; i++) {
                 var tmpArgs = results.rows.item(i).id + ",'" + results.rows.item(i).name + "','" + results.rows.item(i).lati
                      + "','" + results.rows.item(i).lon + "','" + results.rows.item(i).date + "'";
                 tblText += '<tr onclick="goPopup(' + tmpArgs + ');"><td>' + results.rows.item(i).id + '</td><td>'
                         + results.rows.item(i).name + '</td><td>' + results.rows.item(i).lati + '</td><td>' + results.rows.item(i).lon
-                       + '</td><td>' + results.rows.item(i).date + '</td></tr>';
+                       + '</td><td>' + results.rows.item(i).date + '</td><td>free</td></tr>';
             }
             tblText += "</table>";
             document.getElementById("tblDiv").innerHTML = tblText;
         }
 
-        function errorCB(err) {
+        function errorCB(err)
+        {
             alert("Error processing SQL: " + err.code);
         }
 
-        function successCB() {
+        function successCB()
+        {
             var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
             db.transaction(queryDB, errorCB);
         }
 
-        function onDeviceReady() {
+        function onDeviceReady()
+        {
             var db = window.openDatabase("Parking", "1.0", "Cordova", 200000);
             db.transaction(populateDB, errorCB, successCB);
         }
@@ -92,8 +114,8 @@
     <header>
         <h1 class="title">Saved parking</h1>
         <div id="menu">
-                <a id="addParking" href="addparking.html"> <img title="Add Parking" src="/images/add.png" no-repeat center top width="50" height="50" /> </a>
-                <a id="showMap" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
+                <a id="addParking" class="menuIcon" href="addparking.html"> <img title="Add Parking" src="/images/add.png" no-repeat center top width="50" height="50" /> </a>
+                <a id="showMap" class="menuIcon" href="showmap.html"> <img title="Show map" src="/images/map.png" no-repeat center top width="50" height="50" /> </a>
         </div>
     </header>
 
@@ -101,14 +123,15 @@
         <hr />
         <div class="app">
             <h3>Name</h3>       <input class="edit" type="text" value="Name" id="editNameBox">                       <br />
-            <h3>Latitude</h3>   <input class="edit" type="number" step="0.00001" id="editLatiBox">                   <br />
-            <h3>Longitude</h3>  <input class="edit" type="number" step="0.00001" id="editLongBox">                   <br />
-            <!--<h2>Occupied</h2>   <div id="radioButton">
+            <h3>Latitude</h3>   <input class="edit" type="number" step="0.0000000000001" id="editLatiBox">                   <br />
+            <h3>Longitude</h3>  <input class="edit" type="number" step="0.0000000000001" id="editLongBox">                   <br />
+            <h3>Occupied</h3>   <div id="radioButton">
                 <input type="radio" value="Free" id="editOccupiedBox" name="nmOccupied">Free
                 <input type="radio" value="Occupied" id="editOccupiedBox" name="nmOccupied">Occupied
-            </div>-->
+            </div>
             <h3>Date</h3>       <input class="edit" type="datetime-local" id="editDateBox">                                <br />
             <hr />
+            <button onclick="showOnMap()" class="submit-button">Show on map</button>
             <button onclick="goDelete()">Delete</button>
             <button onclick="goEdit()">Edit</button>
             <button onclick="document.getElementById('qrpopup').style.display='none';">Discard</button>

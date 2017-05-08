@@ -154,7 +154,7 @@ header {
     opacity:1;
 }
 
-img {
+.menuIcon {
    -webkit-filter: invert(1);
    filter: invert(1);
    }
@@ -181,19 +181,23 @@ table, th, td {
     border-collapse: collapse;
 }
 th, td {
-    padding: 5px;
-    text-align: left;
+    padding: 0px;
+    text-align: center;
 }
 table#t01 tr:nth-child(even) {
-    background-color: #eee;
+    background-color:white;
+    color: #1F75FE;
 }
 table#t01 tr:nth-child(odd) {
-    background-color:#fff;
+    background-color: #3389FF;
+    color: white;
 }
 table#t01 th    {
     background-color: #1F75FE;
     color: white;
+    word-break:break-all;
 }
+
 button {
     margin: 10px;
     font: bold 13px "Helvetica Neue", Helvetica, Arial, clean, sans-serif !important;
@@ -243,4 +247,17 @@ button:active {
     width: 225px;                   
     text-align: center; 
     margin: -115px 0px 0px -112px;
+}
+
+
+#map{
+    position:absolute;
+    top:90px;
+    width: 100%;
+    height: 80%;
+}
+
+#pommap {    
+    width: 100%;
+    height: 80%;
 }
