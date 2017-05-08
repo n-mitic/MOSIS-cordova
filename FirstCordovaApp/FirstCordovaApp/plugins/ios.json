@@ -24,6 +24,9 @@
         },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "io.cordova.myapp68e0ee"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "io.cordova.myapp68e0ee"
         }
     },
     "dependent_plugins": {
